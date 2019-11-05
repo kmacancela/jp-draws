@@ -5,6 +5,9 @@ class Header extends React.Component {
   render(){
     return(
       <div className="App-header">
+        <div className="cart">
+          <span>Cart</span>
+        </div>
         <span className="headerText">JP Chigne Draws</span>
           <div className="headerLinks">
             <a href="google.com">Shop Prints</a>

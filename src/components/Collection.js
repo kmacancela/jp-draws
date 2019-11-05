@@ -9,7 +9,7 @@ class Collection extends React.Component {
         { this.props.drawings.map(drawing => {
           return <Drawing drawing={ drawing } />
         }) }
-      </Fragment>
+      </Fragment> 
     )
   }
 }

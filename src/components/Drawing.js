@@ -5,7 +5,10 @@ class Drawing extends React.Component {
   render(){
     return (
       <Fragment>
-        <img src={ this.props.drawing.img } width="200" />
+        <figure>
+            <img src={ this.props.drawing.img } width="200" alt="" />
+            <figcaption>{ this.props.drawing.name }</figcaption>
+        </figure>
       </Fragment>
     )
   }

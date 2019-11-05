@@ -1,5 +1,4 @@
-import React, {Fragment} from 'react';
-import logo from './logo.svg';
+import React from 'react'
 import './App.css';
 import Header from './containers/Header'
 import Index from './containers/Index'
@@ -14,4 +13,4 @@ function App() {
   )
 }
 
-export default App;
+export default App

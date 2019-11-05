@@ -15,7 +15,6 @@
 .headerText {
   font-family: 'Permanent Marker', cursive;
   font-size: 3em;
-
 }
 
 .headerLinks > a {
@@ -32,4 +31,28 @@
 
 .collection > img {
   padding: 30px;
+}
+
+figure {
+    display: inline-block;
+}
+
+figcaption {
+    margin: 10px 0 0 0;
+    font-variant: small-caps;
+}
+
+.cart {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 100px;
+  height: 40px;
+  background-color: lightgray;
+}
+
+.cart > span {
+  position: relative;
+  /* text-align: center;
+  vertical-align: middle; */
 }
