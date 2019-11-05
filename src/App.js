@@ -1,15 +1,17 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Header from './containers/Header'
+import Index from './containers/Index'
+import drawings from './drawings'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        Hi!
-      </header>
-    </div>
-  );
+    <Fragment>
+      <Header />
+      <Index drawings={ drawings }/>
+    </Fragment>
+  )
 }
 
 export default App;
