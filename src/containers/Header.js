@@ -1,5 +1,4 @@
 import React from 'react'
-import piggy from '../example-logo.jpg'
 
 class Header extends React.Component {
 
