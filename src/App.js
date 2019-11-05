@@ -7,10 +7,10 @@ import drawings from './drawings'
 
 function App() {
   return (
-    <Fragment>
+    <div className="App">
       <Header />
       <Index drawings={ drawings }/>
-    </Fragment>
+    </div>
   )
 }
 

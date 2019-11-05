@@ -14,7 +14,7 @@ class Index extends React.Component {
 
   render(){
     return(
-      <div>
+      <div className="collection">
         <Collection drawings={ this.state.drawings }/>
       </div>
     )
