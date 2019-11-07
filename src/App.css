@@ -52,7 +52,5 @@ figcaption {
 }
 
 .cart > span {
-  position: relative;
-  /* text-align: center;
-  vertical-align: middle; */
+  font-family: 'Open Sans Condensed', sans-serif;
 }
