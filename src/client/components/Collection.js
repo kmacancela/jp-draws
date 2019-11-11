@@ -7,9 +7,9 @@ class Collection extends React.Component {
     return (
       <Fragment>
         { this.props.drawings.map(drawing => {
-          return <Drawing drawing={ drawing } />
+          return <Drawing drawing={ drawing } specsMethod={ this.props.specsMethod } />
         }) }
-      </Fragment> 
+      </Fragment>
     )
   }
 }
