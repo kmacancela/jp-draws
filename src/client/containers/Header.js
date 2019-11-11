@@ -13,6 +13,9 @@ class Header extends React.Component {
         <div className="cart">
           <NavLink to='/cart' activeClassName='cart-checkout' activeStyle={{}}>Cart</NavLink>
         </div>
+        <div className="signOut">
+          <button onClick={this.props.logOut}>Sign Out</button>
+        </div>
         <span className="headerText"><NavLink onClick={this.changeSpecs} to='/' activeClassName='homepage' activeStyle={{}}>JP Chigne Draws</NavLink></span>
           <div className="headerLinks">
             <a href="">Shop Prints</a>

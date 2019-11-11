@@ -5,10 +5,19 @@ import Index from './client/containers/Index'
 import drawings from './drawings'
 import {Elements, StripeProvider} from 'react-stripe-elements';
 import CheckoutForm from './client/components/CheckoutForm';
+import Login from './client/containers/Login'
+import dotenv from 'dotenv'
+import {Route, Switch, Redirect, withRouter} from 'react-router-dom'
+import Signup from './client/containers/Signup'
 
 class App extends React.Component {
 
   state={
+    token: null,
+    username: '',
+    password: '',
+    user_id: '',
+    user: null,
     drawings: [],
     specs: null,
     cart: []
@@ -26,28 +35,79 @@ class App extends React.Component {
     })
   }
 
+  // need to finish
   addToCart = () => {
     console.log("add to cart method")
   }
 
+  loginAttempt = (event) => {
+    this.setState({
+      [event.target.name]: event.target.value
+    })
+  }
+
+  fetchUser = (event) => {
+    event.preventDefault()
+    fetch("http://localhost:3000/login", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify({
+        username: this.state.username,
+        password: this.state.password
+      })
+    })
+    .then(r => r.json())
+    .then(data => {
+      console.log(data)
+      this.setState({
+        token: data.token,
+        user_id: data.user_id
+      })
+    })
+
+    .then(() => {fetch(`http://localhost:3000/users/${this.state.user_id}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': this.state.token
+      }
+    })
+    .then(res => res.json())
+    .then(user => {
+      this.setState({
+        user
+      })
+    })})
+  }
+
+  logOut = () => {
+    this.setState({
+      user: null,
+      token: null,
+      username: '',
+      password: ''
+    })
+  }
+
   render() {
+    console.log("id: ", this.state.user_id)
     return (
       <div className="App">
-        { /* <hr />
-        <h1>Testing stripe</h1>
-        <StripeProvider apiKey="pk_test_DL12VnUcqypUKkIt7N1Qn5U400Nn4SZl50">
-            <Elements>
-              <CheckoutForm />
-            </Elements>
-        </StripeProvider>
-
-        <hr/> */ }
-
-        <Header specs={this.state.specs} specsMethod={this.specsMethod}/>
-        <Index drawings={this.state.drawings} specs={this.state.specs} specsMethod={this.specsMethod}/>
+        { this.state.user ?
+            <><Header specs={this.state.specs} specsMethod={this.specsMethod} logOut={this.logOut} user={this.state.user}/>
+            <Index drawings={this.state.drawings} specs={this.state.specs} specsMethod={this.specsMethod}/></>
+          :
+          <Switch>
+            <Route path='/signup' render={(props) => <Signup />} />
+            <Route exact path='/' render={(props) => <Login loginAttempt={this.loginAttempt} fetchUser={this.fetchUser} />} />
+          </Switch>
+        }
       </div>
     )
   }
 }
 
-export default App
+export default withRouter(App)
