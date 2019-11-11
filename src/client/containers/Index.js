@@ -8,11 +8,12 @@ class Index extends React.Component {
 
 
   render(){
+    // console.log(this.props.specsMethod)
     return(
       <div className="collection">
         <Switch>
-          <Route path={'/cart'} render={(props) => <Cart/>} />
-          <Route path={'/drawing'} render={(props) => <DrawingSpecs drawing={ this.props.specs } />} />
+          <Route path={'/cart'} render={(props) => <Cart cart={this.props.cart}/>} />
+          <Route path={'/drawing'} render={(props) => <DrawingSpecs drawing={ this.props.specs } addToCart={this.props.addToCart} />} />
           <Route path={'/'} render={(props) => <Collection drawings={ this.props.drawings } specsMethod={ this.props.specsMethod } />} />
         </Switch>
 

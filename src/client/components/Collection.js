@@ -4,10 +4,11 @@ import Drawing from './Drawing'
 class Collection extends React.Component {
 
   render(){
+    // console.log(this.props.specsMethod)
     return (
       <Fragment>
-        { this.props.drawings.map(drawing => {
-          return <Drawing drawing={ drawing } specsMethod={ this.props.specsMethod } />
+        { this.props.drawings.map((drawing, idx) => {
+          return <Drawing key={idx} drawing={ drawing } specsMethod={ this.props.specsMethod } />
         }) }
       </Fragment>
     )

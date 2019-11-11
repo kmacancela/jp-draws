@@ -1,13 +1,10 @@
 import React from 'react'
+import {NavLink} from 'react-router-dom'
 
 class DrawingSpecs extends React.Component {
 
-  addToCart = (event) => {
-    console.log("this: ", this.props.drawing)
-  }
-
   render() {
-    console.log(this.props.drawing.name)
+    // console.log(this.props.drawing.name)
     return (
       <div>
         <div className="row">
@@ -18,7 +15,8 @@ class DrawingSpecs extends React.Component {
             <h1>{ this.props.drawing.name }</h1>
             <span>{ this.props.drawing.description }</span>
             <br /><br />
-            <button className="purchase-btn" onClick={ this.addToCart }>Add To Cart</button>
+            <NavLink to="/" onClick={ () => this.props.addToCart(this.props.drawing) } >Add To Cart</NavLink>
+            { /* <button className="purchase-btn" onClick={ () => this.props.addToCart(this.props.drawing) }>Add To Cart</button> */ }
           </div>
         </div>
       </div>
