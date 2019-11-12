@@ -25,7 +25,9 @@ class Signup extends React.Component {
           </label>
           <input type="submit" value="Sign Up" />
         </form>
-        <NavLink to="/"> Log In </NavLink>
+        <NavLink to="/login"> Log In </NavLink>
+        <br/>
+        <NavLink to="/">Return to HomePage</NavLink>
       </div>
     )
   }

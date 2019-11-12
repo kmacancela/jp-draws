@@ -1,7 +1,8 @@
 import React from 'react'
 import './App.css';
-import Header from './client/containers/Header'
-import Index from './client/containers/Index'
+import HomePage from './client/containers/HomePage'
+import DisplayCart from './client/containers/DisplayCart'
+import DisplayDrawing from './client/containers/DisplayDrawing'
 import drawings from './drawings'
 import {Elements, StripeProvider} from 'react-stripe-elements';
 import CheckoutForm from './client/components/CheckoutForm';
@@ -15,7 +16,7 @@ const DEFAULT_STATE = {
   password: '',
   user_id: '',
   user: null,
-  drawings: [],
+  drawings: drawings,
   specs: null,
   cart: []
 }
@@ -24,6 +25,7 @@ class App extends React.Component {
   state= DEFAULT_STATE
 
   specsMethod = (drawing) => {
+    console.log(drawing)
     this.setState({
       specs: drawing
     })
@@ -32,6 +34,12 @@ class App extends React.Component {
   addToCart = (drawing) => {
     this.setState({
       cart: [...this.state.cart, drawing],
+      specs: null
+    })
+  }
+
+  resetSpecs = () => {
+    this.setState({
       specs: null
     })
   }
@@ -87,17 +95,21 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="App">
-        { this.state.user ?
-            <><Header specs={this.state.specs} specsMethod={this.specsMethod} logOut={this.logOut} user={this.state.user}/>
-            <Index drawings={this.state.drawings} specs={this.state.specs} specsMethod={this.specsMethod} addToCart={this.addToCart} cart={this.state.cart}/></>
-          :
+        <div className="App">
           <Switch>
-            <Route exact path='/signup' render={(props) => <Signup />} />
-            <Route exact path='/' render={(props) => <Login loginAttempt={this.loginAttempt} fetchUser={this.fetchUser} />} />
+            <Route exact path='/' render={(props) => <HomePage resetSpecs={this.resetSpecs} specs={this.state.specs} specsMethod={this.specsMethod} logOut={this.logOut} user={this.state.user} drawings={this.state.drawings} cart={this.state.cart} addToCart={this.addToCart}/>} />
+            <Route path='/cart' render={(props) => <DisplayCart resetSpecs={this.resetSpecs} specs={this.state.specs} specsMethod={this.specsMethod} logOut={this.logOut} user={this.state.user} drawings={this.state.drawings} cart={this.state.cart} addToCart={this.addToCart} />} />
+            <Route path='/drawing' render={(props) => <DisplayDrawing resetSpecs={this.resetSpecs} specs={this.state.specs} specsMethod={this.specsMethod} logOut={this.logOut} user={this.state.user} drawings={this.state.drawings} cart={this.state.cart} addToCart={this.addToCart} />} />
+            <Route path='/signup' render={(props) => <Signup />} />
+            <Route path='/login' render={(props) => <Login loginAttempt={this.loginAttempt} fetchUser={this.fetchUser} />} />
             <Redirect to='' />
           </Switch>
-        }
+
+          { this.state.specs ?
+            <Redirect to='drawing' />
+            :
+            <Redirect to='' />
+           }
       </div>
     )
   }

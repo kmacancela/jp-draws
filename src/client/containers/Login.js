@@ -18,6 +18,8 @@ class Login extends React.Component {
           <input type="submit" value="Log In" />
         </form>
         <NavLink to="/signup">Sign Up</NavLink>
+        <br/>
+        <NavLink to="/">Return to HomePage</NavLink>
       </div>
     )
   }
