@@ -7,7 +7,6 @@ import {StripeProvider, Elements} from 'react-stripe-elements';
 class Cart extends React.Component {
 
   render() {
-    console.log(this.props)
     return(
         <div className="row">
           <div className="column">

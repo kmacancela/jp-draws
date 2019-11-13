@@ -14,7 +14,7 @@ app.get('/charge', function (req, res) {
 app.post('/charge', async (req, res) => {
   let bodyStuff = req.body.split('&')
   let token = bodyStuff[0]
-  let amount = bodyStuff[1]
+  let amount = (parseInt(bodyStuff[1]) * 100).toString()
   try {
     let {status} = await stripe.charges.create({
       amount: amount,
