@@ -7,7 +7,7 @@ import {StripeProvider, Elements} from 'react-stripe-elements';
 class Cart extends React.Component {
 
   render() {
-    console.log(this.props)
+    // console.log(this.props)
     return(
         <div className="row">
           <div className="column">
@@ -26,7 +26,7 @@ class Cart extends React.Component {
                 <h2>Cart Total: ${ this.props.totalAmount(this.props.cart) }</h2>
                 <StripeProvider apiKey="pk_test_DL12VnUcqypUKkIt7N1Qn5U400Nn4SZl50">
                   <Elements>
-                    <CheckoutForm />
+                    <CheckoutForm getUser={this.props.getUser} cart={this.props.cart} user={this.props.user} />
                   </Elements>
                 </StripeProvider>
               </>

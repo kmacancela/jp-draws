@@ -32,7 +32,29 @@ class CheckoutForm extends Component {
         },
         body: token.id + "&" + amount
       })
-      if (response.ok) this.setState({complete: true});
+      if (response.ok) {
+        this.setState({complete: true})
+        this.props.cart.forEach((item) => {
+          let user_id = this.props.user.id
+          let drawing_id = item.id
+          fetch('http://localhost:3000/transactions', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+              user_id,
+              drawing_id
+            })
+          })
+          .then(res => res.json())
+          .then(data => {
+            console.log(data)
+            this.props.getUser()
+          })
+        })
+      };
       // redirect, clear inputs, thank alert
     } catch (event) {
       throw event
@@ -42,7 +64,7 @@ class CheckoutForm extends Component {
   render(){
     if (this.state.complete) return <h1>Purchase Complete</h1>;
 
-    // console.log("checkout form")
+    console.log(this.props.cart)
     return (
       <main>
         <form onSubmit={ this.handleSubmit }>
