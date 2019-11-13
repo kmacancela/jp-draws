@@ -13,8 +13,6 @@ import OrderHistory from './client/components/OrderHistory'
 
 const DEFAULT_STATE = {
   token: null,
-  username: '',
-  password: '',
   user_id: '',
   user: null,
   drawings: drawings,
@@ -51,7 +49,7 @@ class App extends React.Component {
     })
   }
 
-  getToken = () => {
+  getToken = (event) => {
     return fetch("http://localhost:3000/login", {
       method: "POST",
       headers: {
@@ -59,8 +57,8 @@ class App extends React.Component {
         "Accept": "application/json"
       },
       body: JSON.stringify({
-        username: this.state.username,
-        password: this.state.password
+        username: event.target.username.value,
+        password: event.target.password.value
       })
     })
       .then(r => r.json())
@@ -101,7 +99,7 @@ class App extends React.Component {
 
   fetchUser = (event) => {
     event.preventDefault()
-    this.getToken()
+    this.getToken(event)
       .then(() => {
         this.getUser()
     })
