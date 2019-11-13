@@ -33,7 +33,7 @@ class App extends React.Component {
   }
 
   specsMethod = (drawing) => {
-    console.log(drawing)
+    // console.log(drawing)
     this.setState({
       specs: drawing
     })
@@ -77,7 +77,7 @@ class App extends React.Component {
 
   totalAmount = (cart) => {
     if (cart.length === 0) return 0
-    
+
     let prices = cart.map((item) => {return item.price})
     let total = prices.reduce((total, num) => {return total + num})
     return total
@@ -131,7 +131,7 @@ class App extends React.Component {
         username,
         password
       })
-      console.log(data, "data")
+      // console.log(data, "data")
       this.fetchUser(event)
     })
   }
