@@ -13,6 +13,7 @@ class DrawingSpecs extends React.Component {
           </div>
           <div className="column">
             <h1>{ this.props.drawing.name }</h1>
+            <h2>Price: ${ this.props.drawing.price }</h2>
             <span>{ this.props.drawing.description }</span>
             <br /><br />
             <NavLink to="/" onClick={ () => this.props.addToCart(this.props.drawing) } >Add To Cart</NavLink>

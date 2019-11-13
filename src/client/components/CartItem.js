@@ -8,6 +8,7 @@ class CartItem extends React.Component {
         <figure>
             <img src={ this.props.item.img } width="100" alt="" />
             <figcaption>{ this.props.item.name }</figcaption>
+            <figcaption>Price: ${ this.props.item.price }</figcaption>
         </figure>
       </Fragment>
     )

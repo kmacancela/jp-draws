@@ -4,8 +4,6 @@ import HomePage from './client/containers/HomePage'
 import DisplayCart from './client/containers/DisplayCart'
 import DisplayDrawing from './client/containers/DisplayDrawing'
 import drawings from './drawings'
-import {Elements, StripeProvider} from 'react-stripe-elements';
-import CheckoutForm from './client/components/CheckoutForm';
 import Login from './client/containers/Login'
 import {Route, Switch, Redirect, withRouter} from 'react-router-dom'
 import Signup from './client/containers/Signup'
