@@ -9,11 +9,11 @@ class Login extends React.Component {
         <form onSubmit={this.props.fetchUser}>
           <label>
             Username:
-            <input onChange={this.props.loginAttempt} type="text" name="username" />
+            <input type="text" name="username" />
           </label>
           <label>
             Password:
-            <input onChange={this.props.loginAttempt} type="password" name="password" />
+            <input type="password" name="password" />
           </label>
           <input type="submit" value="Log In" />
         </form>

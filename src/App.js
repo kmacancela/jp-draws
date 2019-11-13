@@ -12,9 +12,7 @@ import Signup from './client/containers/Signup'
 
 const DEFAULT_STATE = {
   token: null,
-  username: '',
-  password: '',
-  user_id: '',
+  user_id: null,
   user: null,
   drawings: drawings,
   specs: null,
@@ -23,6 +21,17 @@ const DEFAULT_STATE = {
 
 class App extends React.Component {
   state= DEFAULT_STATE
+
+  componentDidMount(){
+    let user = JSON.parse(localStorage.getItem('user'))
+    if (localStorage.token){
+      this.setState({
+        token: localStorage.token,
+        user_id: localStorage.user_id,
+        user
+      })
+    }
+  }
 
   specsMethod = (drawing) => {
     console.log(drawing)
@@ -44,13 +53,27 @@ class App extends React.Component {
     })
   }
 
-  loginAttempt = (event) => {
+  // loginAttempt = (event) => {
+  //   this.setState({
+  //     [event.target.name]: event.target.value
+  //   })
+  // }
+
+  gotToken = (token, user_id) => {
+    console.log("logged in", token)
+    localStorage.token = token
+    localStorage.user_id = user_id
     this.setState({
-      [event.target.name]: event.target.value
+      token,
+      user_id
     })
   }
 
   fetchUser = (event) => {
+    console.log('username: ', event.target.username.value)
+    console.log('password: ', event.target.password.value)
+    let username = event.target.username.value
+    let password = event.target.password.value
     event.preventDefault()
     fetch("http://localhost:3000/login", {
       method: "POST",
@@ -59,16 +82,13 @@ class App extends React.Component {
         "Accept": "application/json"
       },
       body: JSON.stringify({
-        username: this.state.username,
-        password: this.state.password
+        username,
+        password
       })
     })
       .then(r => r.json())
       .then(data => {
-        this.setState({
-          token: data.token,
-          user_id: data.user_id
-        })
+        this.gotToken(data.token, data.user_id)
       })
       .then(() => {fetch(`http://localhost:3000/users/${this.state.user_id}`, {
         headers: {
@@ -79,6 +99,8 @@ class App extends React.Component {
       })
       .then(res => res.json())
       .then(user => {
+        console.log(user)
+        localStorage.setItem('user', JSON.stringify(user))
         this.setState({
           user,
           drawings
@@ -88,6 +110,9 @@ class App extends React.Component {
   }
 
   logOut = () => {
+    localStorage.token = null
+    localStorage.user_id = null
+    localStorage.user = null
     this.setState(
       DEFAULT_STATE
     )
@@ -104,6 +129,13 @@ class App extends React.Component {
             <Route path='/login' render={(props) => <Login loginAttempt={this.loginAttempt} fetchUser={this.fetchUser} />} />
             <Redirect to='' />
           </Switch>
+
+          {
+            this.state.user ?
+            <Redirect to='' />
+            :
+            null
+          }
 
           { this.state.specs ?
             <Redirect to='drawing' />
