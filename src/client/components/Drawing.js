@@ -7,8 +7,6 @@ class Drawing extends React.Component {
   }
 
   render(){
-    // console.log(this.props.specsMethod)
-
     return (
       <Fragment>
         <figure onClick={ this.handleClick }>

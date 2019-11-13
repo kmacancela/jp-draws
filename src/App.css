@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300&display=swap');
 
+@import url('https://fonts.googleapis.com/css?family=Amatic+SC&display=swap');
+
 * {
   box-sizing: border-box;
   text-decoration: none;
@@ -9,6 +11,18 @@
 
 a {
   color: black;
+}
+
+.titleSub {
+  font-family: 'Amatic SC', cursive;
+  font-size: 25px;
+  padding-left: 300px;
+  margin-top:-12px;
+}
+
+span {
+  font-family: 'Amatic SC', cursive;
+  font-size: 25px;
 }
 
 .App {
@@ -45,13 +59,14 @@ a {
 }
 
 figure {
-    display: inline-block;
+  display: inline-block;
 }
 
 figure > img {
   object-fit: cover;
   width: 230px;
   height: 230px;
+  cursor: pointer;
 }
 
 figcaption {
@@ -60,21 +75,17 @@ figcaption {
 }
 
 .topNav {
+  text-align: right;
   position: absolute;
   top: 10px;
   right: 10px;
-  /* width: 100px;
-  height: 40px; */
+  padding: 20px;
+  /* background-color: #375E97; */
+  /* width: 100%; */
 }
 
 .nav-item {
-  /* position: fixed; */
-  z-index: 100;
   padding: 20px;
-  /* position: absolute;
-  top: 10px;
-  right: 10px; */
-
 }
 
 .signOut {

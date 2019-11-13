@@ -12,26 +12,21 @@ class Header extends React.Component {
              :
              <span>Welcome Guest!</span>
            }
-         <br /><br />
-
-
-           <NavLink to='/cart' className="nav-item">Cart</NavLink>
+           <br /><br />
            {
              this.props.user ?
              <>
-             <NavLink to="/" onClick={this.props.logOut} className="nav-item">Sign Out</NavLink>
-
-               <NavLink to="/orderhistory" className="nav-item">Order History</NavLink>
-
+              <NavLink to="/" onClick={this.props.logOut} className="nav-item">Sign Out</NavLink>
+              <NavLink to="/orderhistory" className="nav-item">Order History</NavLink>
              </>
              :
-             <NavLink to="/login">Sign Up / Log In</NavLink>
+             <NavLink to="/login">Log In</NavLink>
            }
-
+           <NavLink to='/cart' className="nav-item">Cart</NavLink>
        </div>
-        <span className="headerText"><NavLink to='/' onClick={this.props.resetSpecs}>JP Chigne Draws</NavLink></span>
+       <span className="headerText"><NavLink to='/' onClick={this.props.resetSpecs}>JP Chigne Draws</NavLink></span>
         <br />
-        Online Store
+        <div className="titleSub">Online Store</div>
           {/*<div className="headerLinks">
             <a href="">Shop Prints</a>
             <a href="">Custom Art</a>
