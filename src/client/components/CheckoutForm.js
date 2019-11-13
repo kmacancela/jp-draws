@@ -16,14 +16,14 @@ class CheckoutForm extends Component {
     this.setState({
       [event.target.name]: event.target.value
     })
-    console.log("handleChange")
+    // console.log("handleChange")
   }
 
   handleSubmit = async (event) => {
     event.preventDefault()
     try {
       let { token } = await this.props.stripe.createToken({ name: this.state.name })
-      console.log("token: ", token)
+      // console.log("token: ", token)
       let amount = this.state.amount
       let response = await fetch('http://localhost:9000/charge', {
         method: 'POST',
@@ -42,7 +42,7 @@ class CheckoutForm extends Component {
   render(){
     if (this.state.complete) return <h1>Purchase Complete</h1>;
 
-    console.log("checkout form")
+    // console.log("checkout form")
     return (
       <main>
         <form onSubmit={ this.handleSubmit }>

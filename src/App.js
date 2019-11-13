@@ -52,12 +52,6 @@ class App extends React.Component {
     })
   }
 
-  // loginAttempt = (event) => {
-  //   this.setState({
-  //     [event.target.name]: event.target.value
-  //   })
-  // }
-
   getToken = (event) => {
     return fetch("http://localhost:3000/login", {
       method: "POST",
@@ -81,14 +75,12 @@ class App extends React.Component {
       })
   }
 
-  totalAmount = () => {
-    console.log("hits")
-    // let total = this.state.cart.reduce((a,b) => {
-    //   console.log("a", a, "b", b)
-    //   return a.price + b.price, 0
-    // })
-    // console.log("total", total)
-    return this.state.cart[0].price
+  totalAmount = (cart) => {
+    if (cart.length === 0) return 0
+    
+    let prices = cart.map((item) => {return item.price})
+    let total = prices.reduce((total, num) => {return total + num})
+    return total
   }
 
   getUser = () => {
