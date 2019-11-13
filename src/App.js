@@ -23,6 +23,17 @@ const DEFAULT_STATE = {
 class App extends React.Component {
   state= DEFAULT_STATE
 
+  componentDidMount(){
+    let user = JSON.parse(localStorage.getItem('user'))
+    if (localStorage.token){
+      this.setState({
+        token: localStorage.token,
+        user_id: localStorage.user_id,
+        user
+      })
+    }
+  }
+
   specsMethod = (drawing) => {
     console.log(drawing)
     this.setState({
@@ -43,11 +54,11 @@ class App extends React.Component {
     })
   }
 
-  loginAttempt = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value
-    })
-  }
+  // loginAttempt = (event) => {
+  //   this.setState({
+  //     [event.target.name]: event.target.value
+  //   })
+  // }
 
   getToken = (event) => {
     return fetch("http://localhost:3000/login", {
@@ -63,6 +74,8 @@ class App extends React.Component {
     })
       .then(r => r.json())
       .then(data => {
+        localStorage.token = data.token
+        localStorage.user_id = data.user_id
         this.setState({
           token: data.token,
           user_id: data.user_id
@@ -90,6 +103,7 @@ class App extends React.Component {
     })
     .then(res => res.json())
     .then(user => {
+      localStorage.setItem('user', JSON.stringify(user))
       this.setState({
         user,
         drawings
@@ -143,6 +157,9 @@ class App extends React.Component {
   }
 
   logOut = () => {
+    localStorage.token = null
+    localStorage.user_id = null
+    localStorage.user = null
     this.setState(
       DEFAULT_STATE
     )
