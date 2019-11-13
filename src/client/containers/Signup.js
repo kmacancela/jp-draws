@@ -6,7 +6,7 @@ class Signup extends React.Component {
   render() {
     return (
       <div>
-        <form>
+        <form onSubmit={this.props.createUser}>
           <label>
             First Name:
             <input type="text" name="first_name" />

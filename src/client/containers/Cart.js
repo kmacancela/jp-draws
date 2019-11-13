@@ -1,5 +1,8 @@
 import React from 'react'
 import CartItem from '../components/CartItem'
+import CheckoutForm from '../components/CheckoutForm'
+import Login from './Login'
+import {StripeProvider, Elements} from 'react-stripe-elements';
 
 class Cart extends React.Component {
 
@@ -10,17 +13,24 @@ class Cart extends React.Component {
             {this.props.cart.map((item, idx) => {
               // console.log(item)
               return (
-                /*<div>
-                  <img src={item.img} width="100" alt={item.name} />
-                  <h2>{item.name}</h2>
-                </div>*/
                 <CartItem key={idx} item={item} />
               )
             }
           )}
           </div>
           <div className="column">
-            Second Blah
+            {this.props.user ?
+              <>
+              { /*Amount: {this.props.totalAmount()} */}
+            <StripeProvider apiKey="pk_test_DL12VnUcqypUKkIt7N1Qn5U400Nn4SZl50">
+              <Elements>
+                <CheckoutForm />
+              </Elements>
+            </StripeProvider>
+            </>
+            :
+            <Login loginAttempt={this.props.loginAttempt} fetchUser={this.props.fetchUser} />
+          }
           </div>
         </div>
     )

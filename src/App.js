@@ -9,6 +9,7 @@ import CheckoutForm from './client/components/CheckoutForm';
 import Login from './client/containers/Login'
 import {Route, Switch, Redirect, withRouter} from 'react-router-dom'
 import Signup from './client/containers/Signup'
+import OrderHistory from './client/components/OrderHistory'
 
 const DEFAULT_STATE = {
   token: null,
@@ -50,9 +51,8 @@ class App extends React.Component {
     })
   }
 
-  fetchUser = (event) => {
-    event.preventDefault()
-    fetch("http://localhost:3000/login", {
+  getToken = () => {
+    return fetch("http://localhost:3000/login", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -70,20 +70,77 @@ class App extends React.Component {
           user_id: data.user_id
         })
       })
-      .then(() => {fetch(`http://localhost:3000/users/${this.state.user_id}`, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': this.state.token
-        }
+  }
+
+  totalAmount = () => {
+    console.log("hits")
+    // let total = this.state.cart.reduce((a,b) => {
+    //   console.log("a", a, "b", b)
+    //   return a.price + b.price, 0
+    // })
+    // console.log("total", total)
+    return this.state.cart[0].price
+  }
+
+  getUser = () => {
+    return fetch(`http://localhost:3000/users/${this.state.user_id}`, {
+    headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': this.state.token
+      }
+    })
+    .then(res => res.json())
+    .then(user => {
+      this.setState({
+        user,
+        drawings
       })
-      .then(res => res.json())
-      .then(user => {
-        this.setState({
-          user,
-          drawings
-        })
+    })
+  }
+
+  fetchUser = (event) => {
+    event.preventDefault()
+    this.getToken()
+      .then(() => {
+        this.getUser()
+    })
+  }
+
+  newUser = (event) => {
+    let username = event.target.username.value
+    let password = event.target.password.value
+    return fetch("http://localhost:3000/users", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        first_name: event.target.first_name.value,
+        last_name:event.target.last_name.value,
+        username,
+        password
       })
+    })
+    .then(r => r.json())
+    .then(data => {
+      this.setState({
+        username,
+        password
+      })
+      console.log(data, "data")
+      this.fetchUser(event)
+    })
+  }
+
+  createUser = (event) => {
+    event.preventDefault()
+    this.newUser(event)
+    .then(
+    this.getToken())
+      .then(() => {
+        this.getUser()
     })
   }
 
@@ -98,18 +155,28 @@ class App extends React.Component {
         <div className="App">
           <Switch>
             <Route exact path='/' render={(props) => <HomePage resetSpecs={this.resetSpecs} specs={this.state.specs} specsMethod={this.specsMethod} logOut={this.logOut} user={this.state.user} drawings={this.state.drawings} cart={this.state.cart} addToCart={this.addToCart}/>} />
-            <Route path='/cart' render={(props) => <DisplayCart resetSpecs={this.resetSpecs} specs={this.state.specs} specsMethod={this.specsMethod} logOut={this.logOut} user={this.state.user} drawings={this.state.drawings} cart={this.state.cart} addToCart={this.addToCart} />} />
+            <Route path='/cart' render={(props) => <DisplayCart resetSpecs={this.resetSpecs} specs={this.state.specs} specsMethod={this.specsMethod} logOut={this.logOut} user={this.state.user} drawings={this.state.drawings} cart={this.state.cart} addToCart={this.addToCart} loginAttempt={this.loginAttempt} fetchUser={this.fetchUser} totalAmount={this.totalAmount} />} />
             <Route path='/drawing' render={(props) => <DisplayDrawing resetSpecs={this.resetSpecs} specs={this.state.specs} specsMethod={this.specsMethod} logOut={this.logOut} user={this.state.user} drawings={this.state.drawings} cart={this.state.cart} addToCart={this.addToCart} />} />
-            <Route path='/signup' render={(props) => <Signup />} />
+            <Route path='/signup' render={(props) => <Signup createUser={ this.createUser }/>} />
             <Route path='/login' render={(props) => <Login loginAttempt={this.loginAttempt} fetchUser={this.fetchUser} />} />
+            <Route path='/orderhistory' render={(props) => <OrderHistory resetSpecs={this.resetSpecs} specs={this.state.specs} specsMethod={this.specsMethod} logOut={this.logOut} user={this.state.user} drawings={this.state.drawings} cart={this.state.cart} addToCart={this.addToCart}/>} />} />
             <Redirect to='' />
           </Switch>
+
+
+
+           {this.state.user ?
+           <Redirect to='' />
+            :
+            null
+            }
 
           { this.state.specs ?
             <Redirect to='drawing' />
             :
             <Redirect to='' />
            }
+
       </div>
     )
   }

@@ -18,9 +18,15 @@ class Header extends React.Component {
         </div>
         <div className="signOut">
           { this.props.user ?
-            <NavLink to="/" onClick={this.props.logOut}>Sign Out</NavLink>
+            <>
+              <NavLink to="/" onClick={this.props.logOut}>Sign Out</NavLink>
+              <div>
+                <NavLink to="/orderhistory">Order History</NavLink>
+              </div>
+            </>
             :
             <NavLink to="/login">Sign In / Log In</NavLink>
+
           }
         </div>
         <span className="headerText"><NavLink to='/' onClick={this.props.resetSpecs} activeClassName='homepage' activeStyle={{}}>JP Chigne Draws</NavLink></span>

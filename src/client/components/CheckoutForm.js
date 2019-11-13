@@ -22,26 +22,16 @@ class CheckoutForm extends Component {
   handleSubmit = async (event) => {
     event.preventDefault()
     try {
-      console.log("reached")
       let { token } = await this.props.stripe.createToken({ name: this.state.name })
-      console.log("token: ", token)
       let amount = this.state.amount
-      console.log("amount: ", amount)
-
-      // const proxyurl = "https://cors-anywhere.herokuapp.com/";
-      const url = 'http://localhost:9000/charge'
-
-      await fetch(url, {
+      let response = await fetch('http://localhost:9000/charge', {
         method: 'POST',
         headers: {
           "Content-Type": "text/plain"
         },
-        body: JSON.stringify({
-          // "mode": "no-cors",
-          token,
-          amount
-        })
+        body: token.id + "&" + amount
       })
+      if (response.ok) this.setState({complete: true});
       // redirect, clear inputs, thank alert
     } catch (event) {
       throw event
@@ -50,6 +40,8 @@ class CheckoutForm extends Component {
 
   render(){
     if (this.state.complete) return <h1>Purchase Complete</h1>;
+
+    console.log("checkout form")
     return (
       <main>
         <form onSubmit={ this.handleSubmit }>
@@ -68,9 +60,11 @@ class CheckoutForm extends Component {
             onChange={ this.handleChange }
           />
           <CardElement />
-          <button>Purchase</button>
+
+          <input type="submit" value="Purchase"/>
         </form>
       </main>
+
     )
   }
 }
