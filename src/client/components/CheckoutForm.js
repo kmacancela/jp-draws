@@ -23,6 +23,7 @@ class CheckoutForm extends Component {
     event.preventDefault()
     try {
       let { token } = await this.props.stripe.createToken({ name: this.state.name })
+      console.log("token: ", token)
       let amount = this.state.amount
       let response = await fetch('http://localhost:9000/charge', {
         method: 'POST',

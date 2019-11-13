@@ -1,12 +1,14 @@
-const app = require("express")();
+const app = require("express")()
 const cors = require('cors')
-const stripe = require("stripe")();
+const dotenv = require('dotenv')
+dotenv.config()
+const stripe = require("stripe")(process.env.REACT_APP_SECRET_KEY)
 
 app.use(require("body-parser").text());
 app.use(cors())
 
 app.get('/charge', function (req, res) {
-  console.log("hi")
+  console.log("Hello World")
 })
 
 app.post('/charge', async (req, res) => {
