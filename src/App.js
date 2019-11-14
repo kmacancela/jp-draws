@@ -15,7 +15,8 @@ const DEFAULT_STATE = {
   user: null,
   drawings: drawings,
   specs: null,
-  cart: []
+  cart: [],
+  error: false
 }
 
 class App extends React.Component {
@@ -33,13 +34,21 @@ class App extends React.Component {
   }
 
   specsMethod = (drawing) => {
-    // console.log(drawing)
     this.setState({
       specs: drawing
     })
   }
 
   addToCart = (drawing) => {
+    // console.log(drawing, "drawing")
+    // let newItem = {}
+    // newItem[drawing.id] = 1
+    // console.log(newItem)
+    // console.log(Object.keys(newItem))
+    //
+    // let newCartItem = this.state.cart.filter(item => {
+    //   Object.keys(item)[0] === Object.keys(newItem)[0])
+    // })
     this.setState({
       cart: [...this.state.cart, drawing],
       specs: null
@@ -66,12 +75,19 @@ class App extends React.Component {
     })
       .then(r => r.json())
       .then(data => {
-        localStorage.token = data.token
-        localStorage.user_id = data.user_id
-        this.setState({
-          token: data.token,
-          user_id: data.user_id
-        })
+        console.log("data", data.errors)
+        if (data.errors) {
+          this.setState({
+            error: true
+          })
+        } else {
+          localStorage.token = data.token
+          localStorage.user_id = data.user_id
+          this.setState({
+            token: data.token,
+            user_id: data.user_id
+          })
+        }
       })
   }
 
@@ -93,6 +109,7 @@ class App extends React.Component {
     })
     .then(res => res.json())
     .then(user => {
+      console.log("user", user)
       localStorage.setItem('user', JSON.stringify(user))
       this.setState({
         user,
@@ -155,16 +172,32 @@ class App extends React.Component {
     )
   }
 
+  removeFromCart = (item) => {
+    let newCart = this.state.cart.filter(data => {
+      return data !== item
+    })
+    this.setState({
+      cart: newCart
+    })
+  }
+
   render() {
     return (
         <div className="App">
           <Switch>
             <Route exact path='/' render={(props) => <HomePage resetSpecs={this.resetSpecs} specs={this.state.specs} specsMethod={this.specsMethod} logOut={this.logOut} user={this.state.user} drawings={this.state.drawings} cart={this.state.cart} addToCart={this.addToCart}/>} />
-            <Route path='/cart' render={(props) => <DisplayCart resetSpecs={this.resetSpecs} specs={this.state.specs} specsMethod={this.specsMethod} logOut={this.logOut} user={this.state.user} drawings={this.state.drawings} cart={this.state.cart} addToCart={this.addToCart} loginAttempt={this.loginAttempt} fetchUser={this.fetchUser} totalAmount={this.totalAmount} getUser={this.getUser}/>} />
+
+            <Route path='/cart' render={(props) => <DisplayCart resetSpecs={this.resetSpecs} specs={this.state.specs} specsMethod={this.specsMethod} logOut={this.logOut} user={this.state.user} drawings={this.state.drawings} cart={this.state.cart} addToCart={this.addToCart} loginAttempt={this.loginAttempt} fetchUser={this.fetchUser} totalAmount={this.totalAmount} getUser={this.getUser} removeFromCart={this.removeFromCart} error={this.state.error} />} />
+
             <Route path='/drawing' render={(props) => <DisplayDrawing resetSpecs={this.resetSpecs} specs={this.state.specs} specsMethod={this.specsMethod} logOut={this.logOut} user={this.state.user} drawings={this.state.drawings} cart={this.state.cart} addToCart={this.addToCart} />} />
+
             <Route path='/signup' render={(props) => <Signup createUser={ this.createUser }/>} />
-            <Route path='/login' render={(props) => <Login loginAttempt={this.loginAttempt} fetchUser={this.fetchUser} />} />
+
+            <Route path='/login' render={(props) => <Login loginAttempt={this.loginAttempt} fetchUser={this.fetchUser}
+            error={this.state.error} />} />
+
             <Route path='/orderhistory' render={(props) => <OrderHistory resetSpecs={this.resetSpecs} specs={this.state.specs} specsMethod={this.specsMethod} logOut={this.logOut} user={this.state.user} drawings={this.state.drawings} cart={this.state.cart} addToCart={this.addToCart}/>} />} />
+
             <Redirect to='' />
           </Switch>
 

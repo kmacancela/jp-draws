@@ -2,13 +2,22 @@ import React, {Fragment} from 'react'
 
 class CartItem extends React.Component {
 
+  handleRemove = () => {
+    this.props.removeFromCart(this.props.item)
+  }
+
   render(){
     return (
       <Fragment>
-        <figure>
-            <img src={ this.props.item.img } width="100" alt="" />
-            <figcaption>{ this.props.item.name }</figcaption>
-            <figcaption>Price: ${ this.props.item.price }</figcaption>
+        <figure className="cart-item">
+            <img src={ this.props.item.img } alt="" />
+            <figcaption>
+              { this.props.item.name }
+              <br />
+              ${ this.props.item.price }
+              <br />
+              <button onClick={this.handleRemove}>Remove</button>
+            </figcaption>
         </figure>
       </Fragment>
     )

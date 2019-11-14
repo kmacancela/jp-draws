@@ -7,7 +7,7 @@ class CheckoutForm extends Component {
     this.state = {
       complete: false,
       name: "",
-      amount: ""
+      amount: this.props.totalAmount(this.props.cart)
     }
   }
 
@@ -47,7 +47,6 @@ class CheckoutForm extends Component {
           })
           .then(res => res.json())
           .then(data => {
-            console.log(data)
             this.props.getUser()
           })
         })
@@ -63,23 +62,15 @@ class CheckoutForm extends Component {
     return (
       <main>
         <form onSubmit={ this.handleSubmit }>
-          <label>Name</label>
           <input
             type="text"
             value={ this.state.name }
             name="name"
+            placeholder="Full Name"
             onChange={ this.handleChange }
           />
-          <label>Amount</label>
-          <input
-            type="text"
-            value={ this.state.amount }
-            name="amount"
-            onChange={ this.handleChange }
-          />
-          <CardElement />
-
-          <input type="submit" value="Purchase"/>
+        <CardElement className="cardElement" />
+          <input type="submit" value="Purchase" className="btn-item"/>
         </form>
       </main>
 

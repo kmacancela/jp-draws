@@ -5,8 +5,9 @@ class Signup extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="div-form">
         <form onSubmit={this.props.createUser}>
+          <h1>SIGN UP</h1>
           <label>
             First Name:
             <input type="text" name="first_name" />
@@ -23,9 +24,9 @@ class Signup extends React.Component {
             Password:
             <input type="password" name="password" />
           </label>
-          <input type="submit" value="Sign Up" />
+          <input type="submit" value="Sign Up" className="btn-item" />
+          <NavLink to="/login" className="btn-item"> Log In </NavLink>
         </form>
-        <NavLink to="/login"> Log In </NavLink>
         <br/>
         <NavLink to="/">Return to HomePage</NavLink>
       </div>

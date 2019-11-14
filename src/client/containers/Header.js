@@ -12,7 +12,7 @@ class Header extends React.Component {
              :
              <span>Welcome Guest!</span>
            }
-           <br /><br />
+           <br /><br /><br />
            {
              this.props.user ?
              <>
@@ -20,7 +20,7 @@ class Header extends React.Component {
               <NavLink to="/orderhistory" className="nav-item">Order History</NavLink>
              </>
              :
-             <NavLink to="/login">Log In</NavLink>
+             <NavLink to="/login" className="nav-item">Log In</NavLink>
            }
            <NavLink to='/cart' className="nav-item">Cart</NavLink>
        </div>
